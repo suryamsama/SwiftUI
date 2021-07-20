@@ -10,6 +10,7 @@ import SwiftUI
 struct RecipeTabView: View {
     var body: some View {
         TabView{
+            RecipeFeaturedView()
             Text("Featured View")
                 .tabItem {
                     VStack{
@@ -26,6 +27,8 @@ struct RecipeTabView: View {
                     }
                 }
         }
+        .environmentObject(RecipeModel())
+
     }
 }
 
