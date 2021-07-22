@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecipeFeaturedView: View {
     @EnvironmentObject var model:RecipeModel
+    @State var detailViewShowing = false
     var body: some View {
         VStack(alignment: .leading, spacing:0){
             Text("Featured Recipie")
@@ -18,19 +19,26 @@ struct RecipeFeaturedView: View {
                 TabView{
                     ForEach(0..<model.recipes.count){ index in
                         if model.recipes[index].featured{
-                            ZStack{
-                                Rectangle()
-                                    .foregroundColor(.white)
-                                VStack(spacing:0){
-                                    Image(model.recipes[index].image)
-                                        .resizable()
-                                        .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
-                                        .clipped()
-                                    Text(model.recipes[index].name)
-                                            .padding(5)
+                            Button(action: {
+                                self.detailViewShowing = true
+                               
+                            }, label: {
+                                ZStack{
+                                    Rectangle()
+                                        .foregroundColor(.white)
+                                    VStack(spacing:0){
+                                        Image(model.recipes[index].image)
+                                            .resizable()
+                                            .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
+                                            .clipped()
+                                        Text(model.recipes[index].name)
+                                                .padding(5)
 
-                                }
-                                
+                                    }
+                                    
+                                }                            })
+                            .sheet(isPresented: $detailViewShowing ){
+                                RecipeDetailView(recipe : model.recipes[index])
                             }
                             .frame(width: geo.size.width - 40, height: geo.size.height - 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                             .cornerRadius(20)
